@@ -1,0 +1,148 @@
+<!doctype html>
+ 
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <title>emography</title>
+    <meta name="description" content="emography
+" />
+    
+    <style>*, *:before, *:after {
+  box-sizing: border-box; 
+}
+html {
+  font-size: 13px;
+}
+body {
+  color: #444;
+  background-color: hsl(0, 0%, 96%);
+}
+h1 {
+  font-size: 1.8rem;
+}
+
+</style>
+  </head>
+  <body>
+    <h1>emography</h1>
+    <p>emography
+</p>
+    
+    <script src="https://cdn.jsdelivr.net/gh/phinajs/phina.js@v0.2.3/build/phina.js"></script>
+    <script>// グローバルに展開
+phina.globalize();
+
+var ASSETS = {
+  image: {
+    base: 'https://raw.githubusercontent.com/toburau/emography/main/image/base.png',
+    face: 'https://raw.githubusercontent.com/toburau/emography/main/image/face.png',
+    mouse1: 'https://raw.githubusercontent.com/toburau/emography/main/image/mouse1.png',
+    mouse2: 'https://raw.githubusercontent.com/toburau/emography/main/image/mouse2.png',
+    mouse3: 'https://raw.githubusercontent.com/toburau/emography/main/image/mouse3.png',
+    mouse4: 'https://raw.githubusercontent.com/toburau/emography/main/image/mouse4.png',
+    mouse5: 'https://raw.githubusercontent.com/toburau/emography/main/image/mouse5.png',
+    eye1: 'https://raw.githubusercontent.com/toburau/emography/main/image/eye1.png',
+    eye2: 'https://raw.githubusercontent.com/toburau/emography/main/image/eye2.png',
+    eye3: 'https://raw.githubusercontent.com/toburau/emography/main/image/eye3.png',
+    eye4: 'https://raw.githubusercontent.com/toburau/emography/main/image/eye4.png',
+    eye5: 'https://raw.githubusercontent.com/toburau/emography/main/image/eye5.png',
+    eyebrow1: 'https://raw.githubusercontent.com/toburau/emography/main/image/eyebrow1.png',
+    eyebrow2: 'https://raw.githubusercontent.com/toburau/emography/main/image/eyebrow2.png',
+    eyebrow3: 'https://raw.githubusercontent.com/toburau/emography/main/image/eyebrow3.png',
+    eyebrow4: 'https://raw.githubusercontent.com/toburau/emography/main/image/eyebrow4.png',
+  },
+};
+
+/*
+ * メインシーン
+ */
+phina.define("MainScene", {
+  // 継承
+  superClass: 'DisplayScene',
+  // 初期化
+  init: function() {
+    // 親クラス初期化
+    this.superInit();
+    // 背景色
+    this.backgroundColor = 'black';
+    // 以下にコードを書いていく
+    
+    this.base = Sprite('base').addChildTo(this).setPosition(320,320);
+    this.face = Sprite('face').addChildTo(this).setPosition(320,320);
+    
+    eye = new Array(
+      Sprite('eye1').addChildTo(this).setPosition(320,320),
+      Sprite('eye2').addChildTo(this).setPosition(320,320),
+      Sprite('eye3').addChildTo(this).setPosition(320,320),
+      Sprite('eye4').addChildTo(this).setPosition(320,320),
+      Sprite('eye5').addChildTo(this).setPosition(320,320)
+      );
+      
+    eyebrow = new Array(
+      Sprite('eyebrow1').addChildTo(this).setPosition(320,320),
+      Sprite('eyebrow2').addChildTo(this).setPosition(320,320),
+      Sprite('eyebrow3').addChildTo(this).setPosition(320,320),
+      Sprite('eyebrow4').addChildTo(this).setPosition(320,320)
+      );
+
+    mouse = new Array(
+      Sprite('mouse1').addChildTo(this).setPosition(320,320),
+      Sprite('mouse2').addChildTo(this).setPosition(320,320),
+      Sprite('mouse3').addChildTo(this).setPosition(320,320),
+      Sprite('mouse4').addChildTo(this).setPosition(320,320),
+      Sprite('mouse5').addChildTo(this).setPosition(320,320)
+      );
+      
+    this.hideFace();
+
+    this.drawFace();
+  },
+  // 毎フレーム更新処理
+  update: function(app) {
+    // 以下にコードを書いていく
+    var p = app.pointer;
+    if(p.getPointingStart()) {
+      this.hideFace();
+      this.drawFace();
+    }
+  },
+  
+  hideFace: function() {
+      for(i=0; i<5; i++) {
+      eye[i].hide();
+      mouse[i].hide();
+      if(i<4) eyebrow[i].hide();
+    }
+  },
+  
+  drawFace: function() {
+    eyeId = Math.floor(Math.random()*5);
+    mouseId = Math.floor(Math.random()*5);
+    eyebrowId = Math.floor(Math.random()*4);
+    console.log(eyeId,mouseId,eyebrowId);
+    eye[eyeId].show();
+    mouse[mouseId].show();
+    eyebrow[eyebrowId].show();
+  }
+});
+/*
+ * メイン処理
+ */
+phina.main(function() {
+  // アプリケーションを生成
+  var app = GameApp({
+    assets: ASSETS, // アセット読み込み
+    // MainScene から開始
+    startLabel: 'main',
+  });
+  // fps表示
+  //app.enableStats();
+  // 実行
+  app.run();
+});</script>
+  </body>
+</html>
+
